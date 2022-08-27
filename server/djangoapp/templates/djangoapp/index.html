@@ -37,27 +37,35 @@
                 <ul class="navbar-nav ml-auto">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <div class="row g-2">
+                            <div class="col-lg-auto col-12">
+                                <a href="#">{{ user.first_name }}({{ user.username }})</a>
+                            </div>
+                            <div class="col-lg-auto col-12">
+                                <a href="{% url 'djangoapp:logout' %}">Logout</a>
+                            </div>
+                        </div>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <form action="#" method="post">
+                        <form action="{% url 'djangoapp:login' %}" method="post">
                             {% csrf_token %}
                             <div class="row align-items-center g-2">
                                 <div class="col-lg-auto col-12">
-                                    <input type="text" id="username" name="username" placeholder="Username" class="form-control form-control-sm">
+                                    <input type="text" id="username" name="username" placeholder="Username"
+                                        class="form-control form-control-sm">
                                 </div>
                                 <div class="col-lg-auto col-12">
-                                    <input type="password" id="password" name="password" placeholder="Password" class="form-control form-control-sm">
+                                    <input type="password" id="password" name="password" placeholder="Password"
+                                        class="form-control form-control-sm">
                                 </div>
                                 <div class="col-lg-auto col-12">
-                                    <button type="submit" class="form-control form-control-sm btn btn-primary btn-sm">Log In</button>
+                                    <button type="submit"
+                                        class="form-control form-control-sm btn btn-primary btn-sm">Log In</button>
                                 </div>
                                 <div class="col-lg-auto col-12">
-                                    <a href="#" type="button" class="form-control form-control-sm btn btn-secondary btn-sm">Register</a>
+                                    <a href="{% url 'djangoapp:register' %}" type="button"
+                                        class="form-control form-control-sm btn btn-secondary btn-sm">Register</a>
                                 </div>
                             </div>
                         </form>
