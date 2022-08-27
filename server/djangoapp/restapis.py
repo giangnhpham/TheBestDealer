@@ -52,7 +52,7 @@ def get_dealers_from_cf(url, **kwargs):
         json_result = get_request(url, state=state)
     else:
         json_result = get_request(url)
-    print(json_result)
+
     # - Parse JSON results into a CarDealer object list
     if json_result and not json_result.get('error', False):
         dealers = json_result['payload']
@@ -71,6 +71,8 @@ def get_dealer_by_id_from_cf(url, id):
         dealer = json_result['payload'][0]
         dealer_obj = CarDealer(address=dealer['address'], city=dealer['city'], full_name=dealer['full_name'],
                                id=dealer['id'], lat=dealer['lat'], long=dealer['long'], short_name=dealer['short_name'], st=dealer['st'], zip=dealer['zip'])
+    else:
+        dealer_obj = None
     return dealer_obj
 
 
@@ -83,9 +85,9 @@ def get_dealer_reviews_from_cf(url, dealer_id):
     if json_result:
         reviews = json_result['payload']
         for review in reviews:
-            sentiment = analyze_review_sentiments(review['review'])
+            sentiment_result = analyze_review_sentiments(review['review'])
             review_obj = DealerReview(dealership=review['dealership'], name=review['name'], purchase=review['purchase'], purchase_date=review.get('purchase_date', None), review=review['review'], car_make=review.get(
-                'car_make', None), car_model=review.get('car_model', None), car_year=review.get('car_year', None), sentiment=sentiment, id=review['id'])
+                'car_make', None), car_model=review.get('car_model', None), car_year=review.get('car_year', None), sentiment=sentiment_result, id=review['id'])
             print(review_obj)
             result.append(review_obj)
     return result
@@ -104,4 +106,5 @@ def analyze_review_sentiments(text):
                                 text=text_to_analyze, features='sentiment', return_analyzed_text=True)
 
     # - Get the returned sentiment label such as Positive or Negative
-    return json_response['sentiment']['document']['label']
+    label = json_response['sentiment']['document']['label']
+    return label

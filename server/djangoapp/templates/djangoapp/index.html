@@ -77,6 +77,32 @@
     </header>
 
     <!--Add a dealer table here -->
+    <main class="container-xl">
+        <table class="table table-striped" id="table" data-filter-control="true">
+            <thead>
+                <tr>
+                    <th data-field="id">ID</th>
+                    <th data-field="full_name">Dealer Name</th>
+                    <th data-field="city">City</th>
+                    <th data-field="address">Address</th>
+                    <th data-field="zip">Zip</th>
+                    <th data-field="st" data-filter-control="select">State</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dealer in dealership_list %}
+                <tr>
+                    <td>{{ dealer.id }}</td>
+                    <td><a href="{% url 'djangoapp:dealer_details' dealer.id %}">{{ dealer.full_name }}</a></td>
+                    <td>{{ dealer.city }}</td>
+                    <td>{{ dealer.address }}</td>
+                    <td>{{ dealer.zip }}</td>
+                    <td>{{ dealer.st }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
@@ -85,6 +111,11 @@
     <script src="https://unpkg.com/bootstrap-table@1.21.0/dist/bootstrap-table.min.js"></script>
     <script
         src="https://unpkg.com/bootstrap-table@1.21.0/dist/extensions/filter-control/bootstrap-table-filter-control.js"></script>
+    <script>
+        $(function () {
+            $('#table').bootstrapTable()
+        })
+    </script>
 </body>
 
 </html>
