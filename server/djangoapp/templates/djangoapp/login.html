@@ -37,11 +37,6 @@
                                 </div>
                                 <button type="submit" class="form-control btn btn-primary rounded-pill">Sign In</button>
                             </div>
-                            {% if message %}
-                            <div class="alert alert-warning">
-                                {{ message }}
-                            </div>
-                            {% endif %}
                         </form>
                         <div class="text-center">
                             <p>Do not have an account? <a href="{% url 'djangoapp:register' %}">Register Now</a></h1>
