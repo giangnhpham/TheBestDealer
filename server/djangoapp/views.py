@@ -30,9 +30,8 @@ def about(request):
 def contact(request):
     return render(request, 'djangoapp/contact.html')
 
+
 # Create a `login_request` view to handle sign in request
-
-
 def login_request(request):
     if request.method == "POST":
         # Get username and password from request.POST dictionary
@@ -50,9 +49,8 @@ def login_request(request):
             return render(request, 'djangoapp/login.html', context)
     return render(request, "djangoapp/login.html")
 
+
 # Create a `logout_request` view to handle sign out request
-
-
 def logout_request(request):
     print("Log out the user `{}`".format(request.user.username))
     logout(request)
@@ -83,9 +81,9 @@ def registration_request(request):
             return render(request, 'djangoapp/registration.html', context)
     return render(request, 'djangoapp/registration.html')
 
+
+
 # Update the `get_dealerships` view to render the index page with a list of dealerships
-
-
 def get_dealerships(request):
     context = {}
     if request.method == "GET":
@@ -93,6 +91,7 @@ def get_dealerships(request):
         dealerships = get_dealers_from_cf(url)
         context['dealership_list'] = dealerships
         return render(request, 'djangoapp/index.html', context)
+
 
 # Create a `get_dealer_details` view to render the reviews of a dealer
 def get_dealer_details(request, dealer_id):
@@ -108,9 +107,9 @@ def get_dealer_details(request, dealer_id):
     else:
         context['message'] = 'Sorry, The dealer do not exists!!!'
     return render(request, 'djangoapp/dealer_details.html', context)
+
+
 # Create a `add_review` view to submit a review
-
-
 def add_review(request, dealer_id):
     context = {}
     user = request.user
@@ -124,7 +123,8 @@ def add_review(request, dealer_id):
             car_id = request.POST["car"]
             car = CarModel.objects.get(pk=car_id)
             review_url = "{}/review".format(BASE_URL)
-            reviews = get_dealer_reviews_from_cf(review_url, dealer_id=dealer_id)
+            reviews = get_dealer_reviews_from_cf(
+                review_url, dealer_id=dealer_id)
             max_id = max([review.id for review in reviews], default=1000)
             payload['id'] = max_id + 1 if max_id >= 1000 else max_id + 1000
             payload['time'] = datetime.utcnow().isoformat()
@@ -148,6 +148,5 @@ def add_review(request, dealer_id):
 
     # Get cars for dealer
     cars = CarModel.objects.filter(dealer_id=dealer_id)
-    print(cars)
     context['cars'] = cars
     return render(request, 'djangoapp/add_review.html', context)

@@ -1,4 +1,4 @@
-    FROM python:3.10.6
+    FROM python:3.10.4
 
     ENV PYTHONBUFFERED 1
     ENV PYTHONWRITEBYTECODE 1
